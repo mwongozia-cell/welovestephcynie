@@ -32,6 +32,7 @@ ALLOWED_HOSTS = [
     'welovestephcynie.com',
     'www.welovestephcynie.com',
 ]
+print("ALLOWED_HOSTS:", ALLOWED_HOSTS)
 
 
 # Application definition
