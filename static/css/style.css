@@ -1,0 +1,356 @@
+:root {
+    --plum: #5D3A66;
+    --silver: #C0C0C0;
+    --lavender: #F3EAF7;
+    --charcoal: #333333;
+}
+
+body {
+    background-color: var(--lavender);
+    color: var(--charcoal);
+    font-family: 'Open Sans', sans-serif;
+}
+
+h1,
+h2,
+h4 {
+    font-family: 'Dancing Script', cursive;
+    color: var(--plum);
+}
+
+.invite-card {
+    background-color: #fff;
+    border-radius: 15px;
+    box-shadow: 0 8px 20px rgba(93, 58, 102, 0.2);
+    padding: 2rem;
+    max-width: 700px;
+    margin: 3rem auto;
+}
+
+img.rounded-circle {
+    border: 4px solid var(--silver);
+    animation: fadeIn 1.2s ease-in-out;
+}
+
+.display-3 {
+    animation: fadeIn 1.2s ease-in-out;
+}
+
+.btn-success {
+    background-color: var(--plum);
+    border-color: var(--plum);
+}
+
+.btn-warning {
+    background-color: var(--silver);
+    border-color: var(--silver);
+    color: var(--charcoal);
+}
+
+.btn-outline-secondary {
+    border-color: var(--silver);
+    color: var(--silver);
+}
+
+.btn-outline-secondary:hover {
+    background-color: var(--silver);
+    color: var(--charcoal);
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.sparkle-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    overflow: hidden;
+    z-index: 0;
+}
+
+.sparkle {
+    position: absolute;
+    border-radius: 50%;
+    opacity: 0.8;
+    animation: floatSparkle linear infinite;
+}
+
+@keyframes floatSparkle {
+    0% {
+        transform: translateY(0) scale(1);
+        opacity: 0.8;
+    }
+
+    100% {
+        transform: translateY(-100vh) scale(0.5);
+        opacity: 0;
+    }
+}
+
+.sparkle-burst {
+    position: absolute;
+    border-radius: 50%;
+    pointer-events: none;
+    animation: burst 800ms ease-out forwards;
+    z-index: 10;
+}
+
+@keyframes burst {
+    0% {
+        transform: scale(0.5);
+        opacity: 1;
+    }
+
+    100% {
+        transform: scale(2);
+        opacity: 0;
+    }
+}
+
+.sparkle-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    overflow: hidden;
+}
+
+.sparkle {
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    background: gold;
+    border-radius: 50%;
+    animation: sparkle-fall 3s ease-in-out infinite;
+}
+
+@keyframes sparkle-fall {
+    0% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+
+    100% {
+        transform: translateY(100vh);
+        opacity: 0;
+    }
+}
+
+.brand-tag {
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.brand-tag:hover {
+    background: linear-gradient(90deg, #fceabb, #f8b500);
+    color: #000;
+    box-shadow: 0 0 8px rgba(248, 181, 0, 0.6);
+}
+
+.btn-link-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background-color: #0d6efd;
+    color: white;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    text-decoration: none;
+    font-size: 1.2rem;
+}
+
+.btn-link-icon:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+    background-color: #0b5ed7;
+}
+
+.card-img-top {
+    object-fit: cover;
+    height: 200px;
+    width: 100%;
+    border-bottom: 1px solid #eee;
+    border-radius: 0.5rem 0.5rem 0 0;
+    box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.05);
+}
+
+.card {
+    font-size: 0.9rem;
+    /* slightly smaller text */
+    padding: 0.75rem;
+}
+
+.card-title {
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
+}
+
+.card-body {
+    padding: 0.75rem;
+}
+
+.card-img-top {
+    height: 200px;
+    /* was 250px */
+    object-fit: cover;
+    width: 100%;
+    border-bottom: 1px solid #eee;
+}
+
+.btn-sm {
+    font-size: 0.8rem;
+    padding: 0.3rem 0.6rem;
+}
+
+.badge {
+    font-size: 0.75rem;
+    padding: 0.35em 0.6em;
+}
+
+.row.g-4 {
+    --bs-gutter-x: 1rem;
+    --bs-gutter-y: 1rem;
+}
+
+.toggle-icon {
+    transition: transform 0.3s ease;
+}
+
+button[aria-expanded="true"] .toggle-icon {
+    transform: rotate(180deg);
+}
+
+button:hover {
+    background-color: #f8f9fa;
+    cursor: pointer;
+}
+
+.card {
+    font-size: 0.9rem;
+    padding: 0.75rem;
+}
+
+.card-title {
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
+}
+
+.card-body {
+    padding: 0.75rem;
+}
+
+.card-img-top {
+    height: 200px;
+    object-fit: cover;
+    width: 100%;
+    border-bottom: 1px solid #eee;
+}
+
+.badge {
+    font-size: 0.75rem;
+    padding: 0.35em 0.6em;
+}
+
+.btn-sm {
+    font-size: 0.8rem;
+    padding: 0.3rem 0.6rem;
+}
+
+.section-wishlist {
+    background-color: #f7f0f8;
+    /* soft plum tint */
+}
+
+.section-giftcards {
+    background-color: #f0f8f7;
+    /* minty silver-green */
+}
+
+.toggle-icon {
+    transition: transform 0.3s ease;
+}
+
+button[aria-expanded="true"] .toggle-icon {
+    transform: rotate(180deg);
+}
+
+button:hover {
+    background-color: #f8f9fa;
+    cursor: pointer;
+}
+
+.section-wishlist {
+    background-color: #f7f0f8;
+    /* soft plum tint */
+}
+
+.section-giftcards {
+    background-color: #f0f8f7;
+    /* minty silver-green */
+}
+
+.top-picks-toggle {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    z-index: 10;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 2rem;
+    padding: 0.4rem 1rem;
+    font-size: 0.85rem;
+    cursor: pointer;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease;
+}
+
+.top-picks-toggle:hover {
+    background-color: #f7f0f8;
+}
+
+.toggle-icon {
+    transition: transform 0.3s ease;
+}
+
+button[aria-expanded="true"] .toggle-icon {
+    transform: rotate(180deg);
+}
+
+.card {
+    transition: opacity 0.4s ease, transform 0.3s ease;
+}
+
+#wishlist.show-favorites-only .card[data-preference="alternative"] {
+    opacity: 0;
+    transform: scale(0.95);
+    pointer-events: none;
+    transition: none;
+    display: none;
+}
+
+.top-picks-toggle {
+    position: sticky;
+    top: 1rem;
+}
+
+.card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+}

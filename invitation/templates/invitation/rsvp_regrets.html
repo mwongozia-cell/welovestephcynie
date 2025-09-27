@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="invite-card text-center py-5">
+    {% if rsvp_data.type == 'attending' %}
+    <h2 class="mb-3 text-success">🎉 Thank You, {{ rsvp_data.name }}!</h2>
+    <span class="badge bg-success fs-5 mb-3">Attending</span>
+    <p class="lead">We’re thrilled you’ll be joining us in person!</p>
+    <p>You RSVP’d for <strong>{{ rsvp_data.count }}</strong> guest{{ rsvp_data.count|pluralize }}:</p>
+    <ul class="list-unstyled">
+        {% for guest in rsvp_data.attendees %}
+        <li>👤 {{ guest }}</li>
+        {% endfor %}
+    </ul>
+
+    {% elif rsvp_data.type == 'celebrating' %}
+    <h2 class="mb-3 text-warning">🎈 Thank You, {{ rsvp_data.name }}!</h2>
+    <span class="badge bg-warning text-dark fs-5 mb-3">Celebrating from Afar</span>
+    <p class="lead">Your love and joy mean the world—even from a distance!</p>
+    <p>Feel free to <a href="{% url 'invitation:gift' %}">send a gift</a>, <a
+            href="{% url 'invitation:contribute' %}">contribute</a>, or <a href="{% url 'invitation:shoutout' %}">leave
+            a shoutout</a> 💖</p>
+
+    {% elif rsvp_data.type == 'regrets' %}
+    <h2 class="mb-3 text-muted">❌ Thank You for Your RSVP</h2>
+    <span class="badge bg-secondary fs-5 mb-3">Sending Regrets</span>
+    <p class="lead">We’ll miss you—but we appreciate your response and kind wishes!</p>
+
+    {% else %}
+    <h2 class="mb-3">🙏 Thank You</h2>
+    <p class="lead">Your response has been received. We appreciate you!</p>
+    {% endif %}
+
+    <div class="mt-4">
+        <a href="{% url 'invitation:home' %}" class="btn btn-outline-primary btn-lg">Back to Home 🏠</a>
+    </div>
+</div>
+
+<!-- Optional sparkle animation -->
+<div class="sparkle-container"></div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const container = document.querySelector('.sparkle-container');
+        for (let i = 0; i < 30; i++) {
+            const sparkle = document.createElement('div');
+            sparkle.className = 'sparkle';
+            sparkle.style.left = Math.random() * 100 + '%';
+            sparkle.style.animationDelay = Math.random() * 2 + 's';
+            container.appendChild(sparkle);
+        }
+    });
+</script>
+{% endblock %}

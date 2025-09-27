@@ -1,0 +1,39 @@
+:root {
+    --plum: #5D3A66;
+    --silver: #C0C0C0;
+    --ivory: #F8F8F8;
+    --charcoal: #333333;
+}
+
+body {
+    background-color: var(--ivory);
+    color: var(--charcoal);
+    font-family: 'Lora', serif;
+}
+
+h1,
+h2,
+h4 {
+    color: var(--plum);
+}
+
+.btn-success {
+    background-color: var(--plum);
+    border-color: var(--plum);
+}
+
+.btn-warning {
+    background-color: var(--silver);
+    border-color: var(--silver);
+    color: var(--charcoal);
+}
+
+.btn-outline-secondary {
+    border-color: var(--silver);
+    color: var(--silver);
+}
+
+.btn-outline-secondary:hover {
+    background-color: var(--silver);
+    color: var(--charcoal);
+}

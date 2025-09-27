@@ -1,0 +1,117 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container py-5">
+    <h2 class="text-center mb-5">🎁 Stephcy's Birthday Wishlist</h2>
+
+    <!-- Wishlist Section -->
+    {% if wishlist %}
+    <div class="mb-4 p-4 rounded section-wishlist position-relative">
+        <button id="top-picks-toggle" class="top-picks-toggle">🎯 Show Only Top Picks</button>
+
+        <p id="visible-count" class="text-end text-muted small mt-2">Showing <span id="count-number">0</span> items</p>
+
+        <button class="btn btn-outline-primary w-100 d-flex justify-content-between align-items-center mt-4"
+            type="button" data-bs-toggle="collapse" data-bs-target="#wishlist" aria-expanded="true"
+            aria-controls="wishlist">
+            Wishlist 💝
+            <i class="bi bi-chevron-down toggle-icon"></i>
+        </button>
+
+        <div class="collapse show mt-3" id="wishlist">
+            {% for type, items in wishlist.items %}
+            <h5 class="text-muted mt-4">{{ type }}</h5>
+            <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+                {% for item in items %}
+                <div class="col">
+                    <div class="card h-100 shadow-sm border-light" data-preference="{{ item.preference }}">
+                        {% if item.image %}
+                        <img src="{{ item.image }}" class="card-img-top" alt="{{ item.item }}">
+                        {% endif %}
+                        <div class="card-body">
+                            <h5 class="card-title fw-semibold">
+                                {{ item.item }}
+                                {% if item.preference == "favorite" %}
+                                <span class="badge bg-warning text-dark ms-2">Stephcynie's Top Picks ⭐</span>
+                                {% endif %}
+                            </h5>
+                            <div class="mb-2">
+                                {% if item.brand %}
+                                <span class="badge bg-info text-dark me-1">{{ item.brand }}</span>
+                                {% endif %}
+                            </div>
+                            {% if item.website %}
+                            <a href="{{ item.website }}" class="btn btn-link-icon" target="_blank" title="Open link">
+                                <i class="bi bi-link-45deg"></i>
+                            </a>
+                            {% endif %}
+                            {% if not item.purchased %}
+                            <form method="post" action="{% url 'wishlist:mark_purchased' item.id %}" class="mt-3">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-success btn-sm">Mark as Purchased</button>
+                            </form>
+                            {% else %}
+                            <span class="badge bg-success mt-3">🎉 Purchased</span>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+
+    <!-- Gift Cards Section -->
+    {% if giftcards %}
+    <div class="mb-4 p-4 rounded section-giftcards">
+        <button class="btn btn-outline-success w-100 d-flex justify-content-between align-items-center" type="button"
+            data-bs-toggle="collapse" data-bs-target="#giftcards" aria-expanded="true" aria-controls="giftcards">
+            Gift Cards 💳
+            <i class="bi bi-chevron-down toggle-icon"></i>
+        </button>
+        <div class="collapse show mt-3" id="giftcards">
+            {% for type, items in giftcards.items %}
+            <h5 class="text-muted mt-4">{{ type }}</h5>
+            <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+                {% for item in items %}
+                {% include 'wishlist/item_card.html' %}
+                {% endfor %}
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+</div>
+
+<!-- Floating Top Picks Filter Script -->
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const toggle = document.getElementById("top-picks-toggle");
+        const wishlist = document.getElementById("wishlist");
+        const countDisplay = document.getElementById("count-number");
+
+        function updateCount() {
+            const visibleCols = Array.from(wishlist.querySelectorAll('.col')).filter(col => {
+                const card = col.querySelector('.card');
+                return card && window.getComputedStyle(card).display !== 'none';
+            });
+            countDisplay.textContent = visibleCols.length;
+        }
+
+        toggle.addEventListener("click", function () {
+            wishlist.classList.toggle("show-favorites-only");
+            toggle.classList.toggle("active");
+
+            toggle.textContent = toggle.classList.contains("active")
+                ? "⭐ Show All Items"
+                : "🎯 Show Only Top Picks";
+
+            setTimeout(updateCount, 300); // wait for fade
+        });
+
+        updateCount(); // initial count
+    });
+</script>
+
+{% endblock %}

@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="invite-card text-center">
+    <h2 class="mb-3">🎉 Thanks for Celebrating from Afar!</h2>
+    <p class="lead">Choose how you'd like to join the celebration:</p>
+    <div class="d-grid gap-3 col-6 mx-auto">
+        <a href="{% url 'wishlist:view_wishlist' %}" class="btn btn-outline-secondary">🎁 View Wishlist</a>
+        <a href="{% url 'invitation:contribute' %}" class="btn btn-outline-secondary">💸 Contribute Financially</a>
+        <a href="{% url 'messageboard:shoutout' %}" class="btn btn-outline-secondary">📣 Send a Shoutout</a>
+    </div>
+</div>
+{% endblock %}

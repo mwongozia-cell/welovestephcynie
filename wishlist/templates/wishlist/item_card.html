@@ -1,0 +1,28 @@
+<div class="col">
+    <div class="card h-100 shadow-sm border-light" data-preference="{{ item.preference }}">
+        {% if item.image %}
+        <img src="{{ item.image }}" class="card-img-top" alt="{{ item.item }}">
+        {% endif %}
+        <div class="card-body">
+            <h5 class="card-title fw-semibold">{{ item.item }}</h5>
+            <div class="mb-2">
+                {% if item.brand %}
+                <span class="badge bg-info text-dark me-1">{{ item.brand }}</span>
+                {% endif %}
+            </div>
+            {% if item.website %}
+            <a href="{{ item.website }}" class="btn btn-link-icon" target="_blank" title="Open link">
+                <i class="bi bi-link-45deg"></i>
+            </a>
+            {% endif %}
+            {% if not item.purchased %}
+            <form method="post" action="{% url 'wishlist:mark_purchased' item.id %}" class="mt-3">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-success btn-sm">Mark as Purchased</button>
+            </form>
+            {% else %}
+            <span class="badge bg-success mt-3">🎉 Purchased</span>
+            {% endif %}
+        </div>
+    </div>
+</div>

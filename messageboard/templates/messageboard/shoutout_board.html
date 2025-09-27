@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container py-5">
+    <h2 class="text-center mb-4" style="color: var(--plum); font-family: 'Dancing Script', cursive;">
+        🎉 Shoutouts for Stephcynie
+    </h2>
+
+    {% if posts %}
+    <div class="row gy-4">
+        {% for post in posts %}
+        <div class="col-12">
+            <div class="card shadow-sm border-0 rounded-4">
+                <div class="card-body">
+                    <h5 class="fw-bold" style="color: var(--plum);">{{ post.name }}</h5>
+                    <p class="mb-2" style="color: var(--charcoal); white-space: pre-line;">{{ post.message }}</p>
+
+                    {% if post.has_media %}
+                    <div class="d-flex flex-wrap gap-3 mt-2">
+                        {% for media in post.media.all %}
+                        <div class="position-relative" style="max-width: 200px;">
+                            {% if media.is_image %}
+                            <img src="{{ media.file.url }}" class="img-fluid rounded" style="max-height: 200px;">
+                            {% elif media.is_video %}
+                            <video src="{{ media.file.url }}" controls class="w-100 rounded"
+                                style="max-height: 240px;"></video>
+                            {% endif %}
+                        </div>
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+
+                    <small class="text-muted d-block mt-2">
+                        Posted on {{ post.created_at|date:"F j, Y, g:i a" }}
+                    </small>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <p class="text-center text-muted">No shoutouts yet. Be the first to celebrate Stephcynie!</p>
+    {% endif %}
+</div>
+{% endblock %}

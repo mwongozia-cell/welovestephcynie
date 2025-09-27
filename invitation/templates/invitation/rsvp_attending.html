@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="invite-card text-center">
+    <h2 class="mb-3">🎉 You're Attending!</h2>
+    <p class="lead">We’re thrilled you’ll be joining us. Please fill out your RSVP below.</p>
+
+    <form method="POST" action="{% url 'invitation:rsvp_attending' %}" class="mt-4">
+        {% csrf_token %}
+        <div class="mb-3">
+            <label for="name" class="form-label">Your Name</label>
+            <input type="text" class="form-control" id="name" name="name" required>
+        </div>
+
+        <div class="mb-3">
+            <label for="email" class="form-label">Your Email</label>
+            <input type="email" class="form-control" id="email" name="email" required>
+        </div>
+
+        <div class="mb-3">
+            <label for="count" class="form-label">How many in your party?</label>
+            <input type="number" class="form-control" id="count" name="count" min="1" value="1" required>
+        </div>
+
+        <div id="attendeeFields" class="mb-3" style="display: none;">
+            <label class="form-label">Names of attendees:</label>
+            <div id="attendeeInputs"></div>
+        </div>
+
+        <button type="submit" class="btn btn-success btn-lg">Submit RSVP ✅</button>
+    </form>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const countInput = document.getElementById("count");
+        const attendeeFields = document.getElementById("attendeeFields");
+        const attendeeInputs = document.getElementById("attendeeInputs");
+
+        countInput.addEventListener("input", function () {
+            const count = parseInt(countInput.value);
+            attendeeInputs.innerHTML = "";
+
+            if (count > 1) {
+                attendeeFields.style.display = "block";
+                const extraAttendees = count - 1;
+
+                for (let i = 1; i <= extraAttendees; i++) {
+                    const input = document.createElement("input");
+                    input.type = "text";
+                    input.name = "attendees";
+                    input.className = "form-control mb-2";
+                    input.placeholder = `Attendee ${i + 1}`;
+                    input.required = true;
+                    attendeeInputs.appendChild(input);
+                }
+            } else {
+                attendeeFields.style.display = "none";
+            }
+        });
+    });
+</script>
+{% endblock %}

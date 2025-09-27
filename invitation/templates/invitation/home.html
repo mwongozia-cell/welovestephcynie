@@ -1,0 +1,172 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<audio id="birthdayAudio" autoplay loop muted style="display: none;">
+    <source src="{% static 'audio/birthday.mp3' %}" type="audio/mpeg">
+    <source src="{% static 'audio/birthday.wav' %}" type="audio/wav">
+</audio>
+
+<div class="sparkle"></div>
+
+<div class="invite-card text-center">
+    <h1>Welcome, {{ name }}!</h1>
+    <img src="{% static 'images/stephcynie.png' %}" alt="Stephcynie" class="img-fluid rounded-circle shadow mb-3"
+        style="max-width: 250px;">
+    <h2 class="mb-3">You're Invited to Stephcynie's 40th Birthday Celebration!</h2>
+    <p class="lead">Join us in honoring a fabulous milestone on <strong>November 20th</strong>.</p>
+    <p>We know everyone won't be able to travel, so we invite you to celebrate where you are by sending a shoutout,
+        purchasing Stephcynie a gift from her wishlist, contributing financially to her birthday shenanigans, or all of
+        the above!</p>
+
+    <div class="my-4">
+        <h4 class="text-muted">Countdown to the big day:</h4>
+        <h1 id="countdownClock" class="display-5 text-primary">Loading...</h1>
+    </div>
+
+    <div class="my-5">
+        <h5 class="mb-3">Will you be celebrating with us?</h5>
+        <div class="d-grid gap-3 col-6 mx-auto">
+            <a href="{% url 'invitation:rsvp_attending' %}" class="btn btn-success btn-lg">✅ I’ll be there!</a>
+            <a href="{% url 'invitation:rsvp_celebrating' %}" class="btn btn-warning btn-lg">🎉 Can’t attend, but
+                celebrating!</a>
+            <a href="{% url 'invitation:rsvp_regrets' %}" class="btn btn-outline-secondary btn-lg">❌ Regrets</a>
+        </div>
+    </div>
+</div>
+
+<div class="my-5 text-end">
+    <button class="btn btn-outline-secondary" type="button" data-bs-toggle="collapse" data-bs-target="#eventDetails"
+        aria-expanded="false" aria-controls="eventDetails">
+        📍 View Event Details
+    </button>
+
+    <div class="collapse mt-3" id="eventDetails">
+        <div class="card card-body text-start" style="background-color: #F3EAF7; border-radius: 12px;">
+            <h5 class="mb-3">Event Details</h5>
+            <ul class="list-unstyled">
+                <li><strong>Location:</strong> Seattle, Washington <em>(Exact location TBD)</em></li>
+                <li><strong>Date:</strong> November 20, 2025</li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<div class="sparkle-container" id="sparkleContainer"></div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        // 🎶 Music fade-in
+        const audio = document.getElementById("birthdayAudio");
+
+        function tryPlayAudio() {
+            audio.volume = 0;
+            audio.muted = true;
+
+            const playPromise = audio.play();
+
+            if (playPromise !== undefined) {
+                playPromise.then(() => {
+                    audio.muted = false;
+                    let fadeInterval = setInterval(() => {
+                        if (audio.volume < 0.9) {
+                            audio.volume = Math.min(audio.volume + 0.05, 1);
+                        } else {
+                            clearInterval(fadeInterval);
+                        }
+                    }, 300);
+                }).catch(err => {
+                    console.warn("Autoplay blocked. Waiting for user interaction...");
+                    document.body.addEventListener("click", () => {
+                        tryPlayAudio();
+                    }, { once: true });
+                });
+            }
+        }
+
+        tryPlayAudio();
+
+        // ⏳ Countdown clock
+        const countdownClock = document.getElementById("countdownClock");
+        const targetDate = new Date("{{ event_date }}");
+
+        function updateCountdown() {
+            const now = new Date();
+            const diff = targetDate - now;
+
+            if (diff <= 0) {
+                countdownClock.textContent = "🎉 It's party time!";
+                return;
+            }
+
+            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+            const minutes = Math.floor((diff / (1000 * 60)) % 60);
+            const seconds = Math.floor((diff / 1000) % 60);
+
+            countdownClock.textContent = `${days}d ${hours}h ${minutes}m ${seconds}s`;
+        }
+
+        setInterval(updateCountdown, 1000);
+        updateCountdown();
+
+        // ✨ Sparkle burst on hover
+        document.querySelectorAll('.btn').forEach(btn => {
+            btn.addEventListener('mouseenter', e => {
+                const rect = e.target.getBoundingClientRect();
+                const x = rect.left + rect.width / 2;
+                const y = rect.top + rect.height / 2;
+                sparkleBurst(x, y);
+            });
+        });
+
+        // 🌟 Floating sparkles
+        const container = document.getElementById("sparkleContainer");
+
+        function createSparkle() {
+            const sparkle = document.createElement("div");
+            sparkle.classList.add("sparkle");
+
+            const size = Math.random() * 6 + 4;
+            sparkle.style.width = `${size}px`;
+            sparkle.style.height = `${size}px`;
+
+            const colors = ['#C0C0C0', '#FFD700', '#E6CCE6', '#FFFFFF', '#D8BFD8'];
+            sparkle.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+
+            sparkle.style.left = `${Math.random() * 100}vw`;
+            sparkle.style.top = `${Math.random() * 100}vh`;
+            sparkle.style.animationDuration = `${Math.random() * 5 + 3}s`;
+
+            container.appendChild(sparkle);
+
+            setTimeout(() => {
+                sparkle.remove();
+            }, 8000);
+        }
+
+        setInterval(createSparkle, 300);
+
+        // 💥 Sparkle burst function
+        function sparkleBurst(x, y) {
+            const sparkle = document.createElement("div");
+            sparkle.classList.add("sparkle-burst");
+
+            const size = Math.random() * 12 + 8;
+            sparkle.style.width = `${size}px`;
+            sparkle.style.height = `${size}px`;
+
+            const colors = ['#C0C0C0', '#FFD700', '#E6CCE6', '#FFFFFF', '#D8BFD8'];
+            sparkle.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+
+            sparkle.style.left = `${x - size / 2}px`;
+            sparkle.style.top = `${y - size / 2}px`;
+            sparkle.style.position = 'absolute';
+
+            document.body.appendChild(sparkle);
+
+            setTimeout(() => sparkle.remove(), 800);
+        }
+    });
+</script>
+{% endblock %}

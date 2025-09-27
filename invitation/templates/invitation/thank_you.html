@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="text-center py-5">
+    {% if rsvp_data.type == 'attending' %}
+    <h2 class="mb-4 text-success">🎉 Thank You, {{ rsvp_data.name }}!</h2>
+    <p class="lead">We’re thrilled you’ll be joining us in person.</p>
+    <p>You RSVP’d for <strong>{{ rsvp_data.count }}</strong> guest{{ rsvp_data.count|pluralize }}:</p>
+    <ul class="list-unstyled">
+        {% for guest in rsvp_data.attendees %}
+        <li>👤 {{ guest }}</li>
+        {% endfor %}
+    </ul>
+
+    {% elif rsvp_data.type == 'celebrating' %}
+    <h2 class="mb-4 text-primary">🎈 Thank You, {{ rsvp_data.name }}!</h2>
+    <p class="lead">We’re so grateful you’re celebrating with us from afar.</p>
+
+    {% elif rsvp_data.type == 'regrets' %}
+    <h2 class="mb-4 text-muted">💌 Thank You, {{ rsvp_data.name }}</h2>
+    <p class="lead">We’ll miss you at the celebration, but your kind wishes mean the world.</p>
+
+    {% else %}
+    <h2 class="mb-4">🙏 Thank You</h2>
+    <p class="lead">Your response has been received. We appreciate you!</p>
+    {% endif %}
+
+    <div class="mt-4 d-flex justify-content-center gap-3">
+        <a href="{% url 'invitation:home' %}" class="btn btn-outline-primary btn-lg">
+            Back to Home 🏠
+        </a>
+        {% if rsvp_data.type == 'celebrating' %}
+        <a href="{% url 'wishlist:view_wishlist' %}" class="btn btn-outline-success btn-lg">
+            View Wishlist 🎁
+        </a>
+        {% endif %}
+    </div>
+</div>
+
+<!-- Optional sparkle animation -->
+<div class="sparkle-container"></div>
+
+<!-- Optional music -->
+<audio autoplay>
+    <source src="{% static 'audio/thank_you_theme.mp3' %}" type="audio/mpeg">
+</audio>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const container = document.querySelector('.sparkle-container');
+        for (let i = 0; i < 30; i++) {
+            const sparkle = document.createElement('div');
+            sparkle.className = 'sparkle';
+            sparkle.style.left = Math.random() * 100 + '%';
+            sparkle.style.animationDelay = Math.random() * 2 + 's';
+            container.appendChild(sparkle);
+        }
+    });
+</script>
+{% endblock %}
