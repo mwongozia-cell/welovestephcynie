@@ -10,7 +10,7 @@
                 <p class="text-muted">Leave a message, memory, or birthday wish for Stephcynie. You can also upload a
                     photo or video!</p>
 
-                <form method="post" enctype="multipart/form-data" action="{% url 'shoutout_board' %}">
+                <form method="post" enctype="multipart/form-data" action="{% url 'messageboard:shoutout_board' %}">
                     {% csrf_token %}
                     <div class="mb-3">
                         <label for="code" class="form-label fw-semibold">RSVP Code</label>
